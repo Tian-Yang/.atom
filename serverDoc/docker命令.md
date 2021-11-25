@@ -1,4 +1,20 @@
-#docker 安装指南
+#docker learning doc
+## docker基础知识
+###概述
+>Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从 Apache2.0 协议开源。
+Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。
+容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）,更重要的是容器性能开销极低。
+
+###镜像(Image)
+Docker镜像就相当于是一个root文件系统。比如官方镜像ubuntu:16.04就包含了完整的一套Ubuntu16.04最小系统的root文件系统
+
+###容器(Container)
+镜像(Image)和容器(Container)的关系，就像是面向对象程序设计中的类和实例一样，镜像是静态的定义，容器就是镜像运行的实体。容器可以被创建、启动、停止、删除、暂停等
+
+###仓库(Repository)
+仓库可以看成一个代码控制中心，用来保存镜像
+
+
 ##docker安装
 1. 设置阿里云源镜像
 ```
@@ -41,14 +57,26 @@ docker stop 容器ID
 ```
 docker restart 容器ID
 ```
-进入容器
+进入容器方式1
 ```
 docker attach 容器ID
+//Docker attach可以attach到一个已经运行的容器的stdin，然后进行命令执行的动作。
+但是需要注意的是，如果从这个stdin中exit，会导致容器的停止。
+```
+进入容器方式2
+```
+docker exec -it id ./bin/bash
 ```
 
 退出容器
 ```
-docker exec -it 容器ID /bin/bash
+exit
+//退出容器是可能出现
+There are stoped jobs.
+//查看运行的jobs
+jobs -l
+//杀死job进程
+var/solr/data/Ik_core/conf# kill -9 201
 ```
 导出容器
 ```
@@ -113,3 +141,39 @@ docker仓库管理
 https://hub.docker.com
 
 2. 登陆docker
+
+##docker安装软件
+1. 拉去镜像
+```
+docker pull 镜像名:版本号
+```
+2. 查看已安装镜像
+```
+docker images
+```
+3. 运行镜像容器
+```
+docker run -itd --name mysql-test -p 3306:3306 -e MYSQL_ROOT_PASSWORD=666666 mysql
+//-p 3306:3306 ：映射容器服务的 3306 端口到宿主机的 3306 端口，外部主机可以直接通过 宿主机ip:3306 访问到 MySQL 的服务。
+//MYSQL_ROOT_PASSWORD=123456：设置 MySQL 服务 root 用户的密码。
+```
+4. 查看是否安装成功
+```
+docker ps
+```
+
+###安装centos
+```
+docker pull centos:latest
+docker images
+docker run -itd --name centos-test centos
+docker ps
+```
+###安装mysql
+```
+docker pull mysql:last
+docker images
+docker run -itd --name mysql-test -p 3306:3306 -e MYSQL_ROOT_PASSWORD=666666 mysql
+docker ps
+mysql -h localhost -u root -p
+```
