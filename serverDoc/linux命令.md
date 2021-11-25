@@ -1,5 +1,11 @@
 #linux命令
 
+查看是否安装程序
+```
+查看是否安装mysql
+yum list installed mysql*
+```
+
 安装程序
 ```
 yum instal xxx
@@ -38,4 +44,12 @@ netstat -aptn 查看所有开通的端口
 运行程序
 ```
 systemctl start xxx,例如 systemctl start docker
+```
+
+卸载程序
+```
+卸载mysql
+yum remove mysql mysql-sever mysql-libs compat-mysql51
+rm -rf /var/lib/mysql
+rm /etc/my.cnf
 ```
